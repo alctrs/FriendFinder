@@ -1,0 +1,26 @@
+{
+  "name": "friendfinder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alctrs/FriendFinder.git"
+  },
+  "author": "mayra g",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alctrs/FriendFinder/issues"
+  },
+  "homepage": "https://github.com/alctrs/FriendFinder#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "inquirer": "^5.2.0"
+  },
+  "devDependencies": {}
+}

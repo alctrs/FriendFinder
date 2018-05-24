@@ -1,0 +1,50 @@
+var friendsArray = [{
+  "name":"Leia",
+  "photo":"https://i.imgur.com/M9D3eYV.png",
+  "scores":[
+      3,
+      5,
+      5,
+      1,
+      5,
+      1,
+      5,
+      3,
+      3,
+      4
+    ]
+},{
+  "name":"Henry",
+  "photo":"http://www.wearefamilydog.com/wp-content/uploads/2018/02/IMG_8750.jpg",
+  "scores":[
+      5,
+      1,
+      4,
+      4,
+      5,
+      1,
+      2,
+      5,
+      4,
+      1
+    ]
+},
+{
+  "name":"Sassy",
+  "photo":"http://www.dogsinduds.com/pictures/sassy-pixie.jpg",
+  "scores":[
+      2,
+      3,
+      1,
+      1,
+      2,
+      5,
+      2,
+      1,
+      2,
+      1
+    ]
+}
+]
+
+module.exports = friendsArray;
