@@ -1,13 +1,16 @@
 // ===============================================================================
 // LOAD DATA
+
+console.log('apiRoutes Connected');
 // We are linking our routes to a series of "data" sources.
 // These data sources hold arrays of information on table-data, waitinglist, etc.
 // ===============================================================================
 var express = require("express");
 var path = require('path');
-var matches = require("../data/friends.js");
+//var matches = require("../data/friends.js");
 
 var app = express();
+var friendsArray = require("../data/friends.js");
 
 
 // ===============================================================================
@@ -22,49 +25,67 @@ module.exports = function(app) {
   // ---------------------------------------------------------------------------
 
   app.get("/api/friends", function(req, res) {
-    res.json(matches);
+    res.json(friendsArray);
   });
 
- // app.get("/api/waitlist", function(req, res) {
- //   res.json(waitListData);
- // });
 
-  // API POST Requests
-  // Below code handles when a user submits a form and thus submits data to the server.
-  // In each of the below cases, when a user submits form data (a JSON object)
-  // ...the JSON is pushed to the appropriate JavaScript array
-  // (ex. User fills out a reservation request... this data is then sent to the server...
-  // Then the server saves the data to the tableData array)
-  // ---------------------------------------------------------------------------
+ 
+ 
+
+  //POST route to handle incoming surevey results
+
 
   app.post("/api/friends", function(req, res) {
-    // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
-    // It will do this by sending out the value "true" have a table
-    // req.body is available since we're using the body-parser middleware
-    app.get("/", function(req, res) {
-      res.sendFile(path.join(__dirname, "../public/home.html"));
-    });
-  
-    app.get("/survey", function(req, res) {
-      res.sendFile(path.join(__dirname, "../public/survey.html"));
-    });
-  
-    // If no matching route is found default to home
-    app.get("*", function(req, res) {
-      res.sendFile(path.join(__dirname, "../public/home.html"));
-    });
-  });
-  
+    
+  var newFriend = req.body;
+  for(var i = 0; i < newFriend.scores.length; i++) {
+    if(newFriend.scores[i] == "1 (Strongly Disagree)") {
 
-  // ---------------------------------------------------------------------------
-  // I added this below code so you could clear out the table while working with the functionality.
-  // Don"t worry about it!
+      newFriend.scores[i] = 1;
+    } else if(newFriend.scores[i] == "5 (Strongly Agree)") {
 
-  app.post("/api/clear", function() {
-    // Empty out the arrays of data
-    tableData = [];
-    waitListData = [];
+      newFriend.scores[i] = 5;
+    } else {
 
-    console.log(tableData);
-  });
+      newFriend.scores[i] = parseInt(newFriend.scores[i]);
+    }
+  }
+  
+  // comparison array
+
+  var comparisonArray = [];
+
+  for (var i = 0; i < friendsArray.length; i++) {
+    var comparedFriend = friendsArray[i];
+    var totalDifference = 0;
+
+    for(var k = 0; k < comparedFriend.scores.length; k++) {
+      //return the absolute value of a number *use abs()method
+      var differenceOneScore = Math.abs(comparedFriend.scores[k] - newFriend.scores[k]);
+      totalDifference += differenceOneScore;
+    }
+
+    comparisonArray[i] = totalDifference;
+  }
+
+  var bestFriendNum = comparisonArray[0];
+  var bestFriendI = 0;
+
+  for(var i = 1; i < comparisonArray.length; i++) {
+    if(comparisonArray[i] < bestFriendNum) {
+      bestFriendNum = comparisonArray[i];
+      bestFriendI = i;
+    }
+  }
+  //push new friend
+  friendsArray.push(newFriend);
+  //json bf to the current friend match array
+  res.json(friendsArray[bestFriendI]);
+});
 };
+
+
+      
+
+
+

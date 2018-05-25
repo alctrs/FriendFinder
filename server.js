@@ -16,6 +16,7 @@ var PORT = process.env.PORT ||8080;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 //ROUTER
 require("./routing/apiRoutes")(app);
